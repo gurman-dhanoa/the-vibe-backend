@@ -71,6 +71,11 @@ exports.createStudent = catchAsyncError(async (req,res,next) => {
       folder: "images",
       width: 250,
       crop: "scale",
+    }).then(result => {
+      console.log('Image uploaded successfully:', result);
+    })
+    .catch(error => {
+      return next(new ErrorHandler(error, 500));
     });
     const student = await Student.create({
       name,
