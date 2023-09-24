@@ -1,22 +1,15 @@
 const express = require("express");
-const CookieParser = require("cookie-parser");
-const ErrorHandler = require('./middleware/ErrorHandler');
-const cors = require("cors");
-
 const app = express();
+const CookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 const fileupload = require('express-fileupload'); 
 
-app.use(fileupload({useTempFiles: true}))
-app.use(express.json());
-app.use(CookieParser());
-app.use(cors())
+const ErrorHandler = require('./middleware/ErrorHandler');
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Replace * with specific origins if needed
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Specify allowed methods
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Specify allowed headers
-  next();
-});
+app.use(express.json())
+app.use(CookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileupload());
 
 // importing routes
 const adminRoute = require("./routes/adminRoute");
